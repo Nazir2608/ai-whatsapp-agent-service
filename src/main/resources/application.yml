@@ -1,0 +1,63 @@
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ai-whatsapp-agent-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/ai_agent?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: MySql@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+ai:
+  provider: ollama # Options: openai, ollama
+  openai:
+    api-key: ${OPENAI_API_KEY:}
+    model: gpt-3.5-turbo
+    url: https://api.openai.com/v1/chat/completions
+    temperature: 0.1
+  ollama:
+    url: http://localhost:11434
+    model: llama3
+
+whatsapp:
+  api-token: changeme
+
+rate-limit:
+  requests-per-minute: 60
+  per-user-per-minute: 30
+
+logging:
+  level:
+    root: INFO
+    com.nazir.aiagent: DEBUG
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: jdbc:mysql://mysql:3306/ai_agent?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: MySql@123
+  data:
+    redis:
+      host: redis
+      port: 6379
+
+ai:
+  provider: ollama
+  ollama:
+    url: http://ollama:11434
+    model: llama3
