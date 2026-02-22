@@ -27,7 +27,7 @@ ai:
     temperature: 0.1
   ollama:
     url: http://localhost:11434
-    model: llama3
+    model: "gemma3:4b"
 
 whatsapp:
   api-token: changeme
@@ -60,4 +60,4 @@ ai:
   provider: ollama
   ollama:
     url: http://ollama:11434
-    model: llama3
+    model: "gemma3:4b"

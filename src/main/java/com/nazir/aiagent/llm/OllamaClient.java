@@ -19,9 +19,17 @@ public class OllamaClient implements LlmClient {
     @Override
     public String generate(String prompt) {
         String model = aiProperties.getOllama().getModel();
-        String body = "{\"model\":\"" + model + "\",\"prompt\":\"" + prompt + "\"}";
+        String body = """
+                {
+                  "model": "%s",
+                  "messages": [
+                    {"role": "user", "content": "%s"}
+                  ],
+                  "stream": false
+                }
+                """.formatted(model, prompt);
         return webClient.post()
-                .uri("/api/generate")
+                .uri("/api/chat")
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(String.class)
